@@ -1,0 +1,23 @@
+# -----------------------------------------------------------------------------
+# common.txt
+#
+# List of common VHDL source files used for compilation.
+#
+# Files are compiled in the order listed below.
+# Keep dependencies before modules that use them
+# (e.g. packages before entities, lower-level blocks before top-level designs).
+#
+# Format:
+#   - One source file per line
+#   - Empty lines are ignored
+#   - Lines starting with '#' are comments
+#
+# Add new targets by creating a new sources/<target>.txt file
+# containing the required VHDL source files.
+# The common source list (this file) is always compiled first.
+#
+# -----------------------------------------------------------------------------
+
+
+# -------------------------- Common packages ----------------------------------
+src/common/fixed_types_pkg.vhd

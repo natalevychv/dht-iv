@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------------
+# n3.txt
+#
+# List of VHDL source files used for compilation for N = 3.
+#
+# Files are compiled in the order listed below.
+# Keep dependencies before modules that use them
+# (e.g. packages before entities, lower-level blocks before top-level designs).
+#
+# Format:
+#   - One source file per line
+#   - Empty lines are ignored
+#   - Lines starting with '#' are comments
+#
+# -----------------------------------------------------------------------------
+
+
+# -------------------------- Proposed  ----------------------------------------
+
+# --- N3 Proposed ---
+src/proposed/n3/n3_prop_stage_M_5_M_4.vhd
+src/proposed/n3/n3_prop_stage_M_3.vhd
+src/proposed/n3/n3_prop_stage_M_2.vhd
+src/proposed/n3/n3_prop_stage_M_1.vhd
+src/proposed/n3/n3_prop_stage_M_0.vhd
+src/proposed/n3/n3_prop_top.vhd
+
+
+# -------------------------- Naive  -------------------------------------------
+
+# --- N3 Naive ---
+src/naive/n3/n3_naive.vhd
+
+
+# -------------------------- Testbenches  -------------------------------------
+
+# --- N3 Testbench ---
+tb/n3_tb.vhd
