@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n4_prop_stageA.vhd
 --
+-- Stage A of the proposed 4-point DHT-IV architecture.
 --
+-- Forms input sums and computes 6 partial products with the
+-- coefficients C_COEF_S_0_4 .. C_COEF_S_5_4 (passed as generics).
 --
+-- Inputs:  x(0..3)  - input samples
+-- Outputs: p(0..5)  - partial products
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

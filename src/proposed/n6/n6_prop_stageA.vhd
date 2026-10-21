@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n6_prop_stageA.vhd
 --
+-- Stage A of the proposed 6-point DHT-IV architecture.
 --
+-- Input butterflies: sums and differences of x(i) and x(i+3).
+-- No multiplications.
 --
+-- Inputs:  x(0..5)  - input samples
+-- Outputs: p(0..5)  - butterfly outputs
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

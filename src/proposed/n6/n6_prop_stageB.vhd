@@ -1,10 +1,16 @@
 -------------------------------------------------------------------------------
 -- n6_prop_stageB.vhd
 --
+-- Stage B of the proposed 6-point DHT-IV architecture.
 --
+-- Computes 4 coefficient multiplications (C_COEF_S_0_6, C_COEF_S_1_6,
+-- C_COEF_S_3_6, C_COEF_S_4_6, passed as generics) and 2 scalings
+-- by 1/4 implemented as arithmetic right shifts.
 --
+-- Inputs:  p_in(0..5)   - butterfly outputs
+-- Outputs: p_out(0..5)  - products and scaled sums
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

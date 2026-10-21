@@ -1,6 +1,13 @@
 -------------------------------------------------------------------------------
 -- n3_prop_top.vhd
 --
+-- Top-level module for the proposed algorithm for 3-point DHT-IV
+--
+-- Pipeline:
+--      Stage A: input sums and coefficient multiplications
+--      Stage B: final outputs
+--
+-- Total latency: 2 clocks
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

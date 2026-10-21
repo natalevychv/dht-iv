@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n7_prop_stageB.vhd
 --
+-- Stage B of the proposed 7-point DHT-IV architecture.
 --
+-- Forms pre-addition sums and computes 10 coefficient multiplications
+-- (C_COEF_S_0_7 .. C_COEF_S_9_7, passed as generics).
 --
+-- Inputs:  p_in(0..7)   - butterfly outputs
+-- Outputs: p_out(0..9)  - partial products
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

@@ -39,6 +39,7 @@ architecture struct of n7_prop_top is
 
     constant C_COEF_S_0_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_1_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
+    constant C_COEF_S_2_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_3_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_4_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_5_7 : sfix32 := to_sfixed( 1.0000, 15, -16);

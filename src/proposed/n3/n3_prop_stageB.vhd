@@ -1,5 +1,18 @@
 -------------------------------------------------------------------------------
 -- n3_prop_stageB.vhd
+--
+-- Stage B of the proposed 3-point DHT-IV architecture.
+--
+-- Combines the registered inputs with the partial product p_0 to form
+-- the final outputs y(0) and y(2); y(1) is passed through from Stage A.
+-- No multiplications.
+--
+-- Inputs:  x(0..2)  - registered input samples
+--          p_0      - partial product
+--          y_1      - final output y(1)
+-- Outputs: y(0..2)  - transform outputs
+--
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

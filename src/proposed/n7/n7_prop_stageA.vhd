@@ -1,10 +1,14 @@
 -------------------------------------------------------------------------------
 -- n7_prop_stageA.vhd
 --
+-- Stage A of the proposed 7-point DHT-IV architecture.
 --
+-- Input butterflies; x(3) is passed through. No multiplications.
 --
+-- Inputs:  x(0..6)  - input samples
+-- Outputs: p(0..7)  - butterfly outputs
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

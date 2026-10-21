@@ -1,10 +1,14 @@
 -------------------------------------------------------------------------------
 -- n4_prop_stageB.vhd
 --
+-- Stage B of the proposed 4-point DHT-IV architecture.
 --
+-- Adds pairs of partial products from Stage A. No multiplications.
 --
+-- Inputs:  p_in(0..5)   - partial products
+-- Outputs: p_out(0..3)  - intermediate sums
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

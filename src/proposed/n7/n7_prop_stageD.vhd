@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n7_prop_stageD.vhd
 --
+-- Stage D of the proposed 7-point DHT-IV architecture.
 --
+-- Output butterflies forming the final transform outputs;
+-- y(3) is taken directly from p(0). No multiplications.
 --
+-- Inputs:  p_in(0..7)  - intermediate sums
+-- Outputs: y(0..6)     - transform outputs
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

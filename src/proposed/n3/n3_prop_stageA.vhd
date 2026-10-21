@@ -1,10 +1,19 @@
 -------------------------------------------------------------------------------
 -- n3_prop_stageA.vhd
 --
+-- Stage A of the proposed 3-point DHT-IV architecture.
 --
+-- Forms two input sums and computes 2 coefficient multiplications
+-- (C_COEF_S_0_3, C_COEF_S_1_3, passed as generics). Output y(1) is
+-- final after this stage. The input vector is registered and passed
+-- on to Stage B.
 --
+-- Inputs:  x(0..2)      - input samples
+-- Outputs: x_out(0..2)  - registered input samples
+--          p_0          - partial product
+--          y_1          - final output y(1)
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

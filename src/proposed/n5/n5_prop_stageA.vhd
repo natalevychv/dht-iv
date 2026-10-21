@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n5_prop_stageA.vhd
 --
+-- Stage A of the proposed 5-point DHT-IV architecture.
 --
+-- Input butterflies followed by 7 coefficient multiplications
+-- (C_COEF_S_0_5 .. C_COEF_S_6_5, passed as generics).
 --
+-- Inputs:  x(0..4)  - input samples
+-- Outputs: p(0..6)  - partial products
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

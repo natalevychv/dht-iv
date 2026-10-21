@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n7_prop_stageC.vhd
 --
+-- Stage C of the proposed 7-point DHT-IV architecture.
 --
+-- Combines partial products into intermediate sums; p(0) and p(1)
+-- are passed through. No multiplications.
 --
+-- Inputs:  p_in(0..9)   - partial products
+-- Outputs: p_out(0..7)  - intermediate sums
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;

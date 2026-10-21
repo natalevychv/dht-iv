@@ -1,10 +1,15 @@
 -------------------------------------------------------------------------------
 -- n5_prop_stageC.vhd
 --
+-- Stage C of the proposed 5-point DHT-IV architecture.
 --
+-- Output butterflies forming the final transform outputs.
+-- No multiplications.
 --
+-- Inputs:  p_in(0..5)  - intermediate sums
+-- Outputs: y(0..4)     - transform outputs
 --
---
+-- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
