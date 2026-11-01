@@ -32,9 +32,9 @@ architecture rtl of n8_prop_stageA is
 begin
 
   p_int(0) <= resize32(x(7) - x(4));
-  p_int(1) <= resize32(x(6) - x(5));
+  p_int(1) <= resize32(x(5) - x(6));
   p_int(2) <= resize32(x(0) + x(3));
-  p_int(3) <= resize32(-x(1) - x(2));
+  p_int(3) <= resize32(x(1) + x(2));
   p_int(4) <= resize32(x(7) + x(4));
   p_int(5) <= resize32(x(6) + x(5));
   p_int(6) <= resize32(x(0) - x(3));

@@ -42,9 +42,9 @@ begin
 
   p_int(0) <= p_in(0);
   p_int(1) <= p_in(1);
-  p_int(2) <= resize32(p_in(1) + p_in(2) + sum0 + sum1);
-  p_int(3) <= resize32(p_in(2) + sum0);
-  p_int(4) <= resize32(p_in(1) + p_in(2) - sum1);
+  p_int(2) <= resize32(p_in(2) + sum0 + sum1);
+  p_int(3) <= resize32(p_in(2) - sum0);
+  p_int(4) <= resize32(p_in(2) - sum1);
   p_int(5) <= resize32(p_in(6) + sum2 + sum3);
   p_int(6) <= resize32(p_in(6) - sum2);
   p_int(7) <= resize32(p_in(6) - sum3);

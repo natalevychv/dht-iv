@@ -29,14 +29,24 @@ end entity n5_prop_stageB;
 
 architecture rtl of n5_prop_stageB is
   signal p_int : sfix32_vector(0 to 5);
+  signal sum2_3    : sfix32;
+  signal sum2_n3   : sfix32;
+  signal sum4_6    : sfix32;
+  signal sum5_6    : sfix32;
 begin
 
-  p_int(0) <= resize32(p_in(0) + p_in(1) + p_in(2));
-  p_int(1) <= resize32(p_in(0) - p_in(1) - p_in(2));
-  p_int(2) <= p_in(2);
-  p_int(3) <= p_in(3);
-  p_int(4) <= resize32(p_in(4) + p_in(6));
-  p_int(5) <= resize32(p_in(5) + p_in(6));
+  sum2_3  <= resize32(p_in(2) + p_in(3));
+  sum2_n3 <= resize32(p_in(2) - p_in(3));
+  sum4_6  <= resize32(p_in(4) + p_in(6));
+  sum5_6  <= resize32(p_in(5) + p_in(6));
+
+  p_int(0) <= p_in(0);
+  p_int(1) <= p_in(1);
+  p_int(2) <= resize32(sum2_3 + sum4_6);
+  p_int(3) <= resize32(sum2_n3 + sum5_6);
+  p_int(4) <= resize32(sum2_3 - sum4_6);
+  p_int(5) <= resize32(sum2_n3 - sum5_6);
+
 
   process (clk)
   begin

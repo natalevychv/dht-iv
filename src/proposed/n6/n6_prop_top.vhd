@@ -37,8 +37,8 @@ architecture struct of n6_prop_top is
 
     signal dC_p_out : sfix32_vector(0 to 5);
 
-    constant C_COEF_S_0_6 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_1_6 : sfix32 := to_sfixed( 1.0000, 15, -16);
+    constant C_COEF_S_2_6 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_3_6 : sfix32 := to_sfixed( 1.0000, 15, -16);
     constant C_COEF_S_4_6 : sfix32 := to_sfixed( 1.0000, 15, -16);
 
@@ -56,8 +56,8 @@ begin
 
     stageB : entity work.n6_prop_stageB
         generic map (
-            C_COEF_S_0_6_G => C_COEF_S_0_6,
             C_COEF_S_1_6_G => C_COEF_S_1_6,
+            C_COEF_S_2_6_G => C_COEF_S_2_6,
             C_COEF_S_3_6_G => C_COEF_S_3_6,
             C_COEF_S_4_6_G => C_COEF_S_4_6
         )

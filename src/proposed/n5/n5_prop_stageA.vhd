@@ -54,9 +54,9 @@ begin
   sum5    <= resize32(x(1) - x(3));
   sum4_5  <= resize32(sum4 + sum5);
 
-  p_int(0) <= resize32(C_COEF_S_0_5_G * sum0_1);
+  p_int(0) <= resize32(C_COEF_S_0_5_G * x(2));
   p_int(1) <= resize32(C_COEF_S_1_5_G * sum0_n1);
-  p_int(2) <= resize32(C_COEF_S_2_5_G * x(2));
+  p_int(2) <= resize32(C_COEF_S_2_5_G * sum0_1);
   p_int(3) <= resize32(C_COEF_S_3_5_G * sum0_n1);
   p_int(4) <= resize32(C_COEF_S_4_5_G * sum4);
   p_int(5) <= resize32(C_COEF_S_5_5_G * sum5);

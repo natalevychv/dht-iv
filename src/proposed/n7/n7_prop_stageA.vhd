@@ -30,8 +30,8 @@ architecture rtl of n7_prop_stageA is
   signal p_int : sfix32_vector(0 to 7);
 begin
 
-  p_int(0) <= resize32(x(0) - x(1) + x(2) + x(4) - x(3) + x(6) - x(5));
-  p_int(1) <= x(3);
+  p_int(0) <= x(3);
+  p_int(1) <= resize32(x(0) - x(1) + x(2) + x(4) + x(6) - x(5));
   p_int(2) <= resize32(x(2) + x(4));
   p_int(3) <= resize32(-x(1) - x(5));
   p_int(4) <= resize32(x(0) + x(6));

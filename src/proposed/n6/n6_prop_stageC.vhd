@@ -31,12 +31,12 @@ architecture rtl of n6_prop_stageC is
   signal p_int : sfix32_vector(0 to 5);
 begin
 
-  p_int(0) <= resize32(shift_right(p_in(0), 1) + p_in(1) + p_in(4));
-  p_int(1) <= resize32(p_in(0) - p_in(1));
-  p_int(2) <= resize32(-shift_right(p_in(2), 1) - p_in(1) + p_in(2));
-  p_int(3) <= resize32(p_in(3) + p_in(4) + shift_right(p_in(5), 1));
-  p_int(4) <= resize32(p_in(4) - p_in(5));
-  p_int(5) <= resize32(p_in(3) - p_in(4) - shift_right(p_in(5), 1));
+  p_int(0) <= resize32(shift_right(p_in(2), 1) + p_in(0) + p_in(1));
+  p_int(1) <= resize32(p_in(2) - p_in(1));
+  p_int(2) <= resize32(-shift_right(p_in(2), 1) - p_in(1) + p_in(0));
+  p_int(3) <= resize32(p_in(5) + p_in(4) - shift_right(p_in(3), 1));
+  p_int(4) <= resize32(p_in(4) + p_in(3));
+  p_int(5) <= resize32(p_in(5) - p_in(4) + shift_right(p_in(3), 1));
 
   process (clk)
   begin

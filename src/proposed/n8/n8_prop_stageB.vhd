@@ -51,11 +51,11 @@ architecture rtl of n8_prop_stageB is
   signal sum_0_1_2_3   : sfix32;
 
 begin
-  sum0_1   <= resize32(p_in(1) - p_in(0));
-  sum2_3   <= resize32(p_in(3) - p_in(2));
+  sum0_1   <= resize32(p_in(1) + p_in(0));
+  sum2_3   <= resize32(p_in(3) + p_in(2));
   sum0_2   <= resize32(p_in(0) + p_in(2));
   sum1_3   <= resize32(p_in(1) + p_in(3));
-  sum_0_1_2_3 <= resize32(sum1_3 - sum0_2);
+  sum_0_1_2_3 <= resize32(sum1_3 + sum0_2);
 
   
   p_int(0) <= p_in(4);
