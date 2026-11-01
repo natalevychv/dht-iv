@@ -5,7 +5,7 @@ VHDL implementations of the orthonormal discrete Hartley transform of type IV
 
 - **naive** - direct matrix-vector multiplication `Y = C(N) * X`,
 - **proposed** - pipelined fast algorithms based on factorizations of `C(N)`
-  that need far fewer multiplications.
+  that reduce the number of multiplications.
 
 Both architectures use the same fixed-point data types and are simulated side
 by side with GHDL on the same test vectors.
@@ -65,9 +65,12 @@ entries `0` are skipped, `+-1` become additions, `+-2^-k` become shifts, all
 other entries get one multiplier. Stage 1 computes the products, stage 2 sums
 them with a balanced adder tree.
 
-**Proposed** (`src/proposed/nN/`): one VHDL entity per pipeline stage; the
-coefficients are passed to the stages as generics `C_COEF_S_k_N_G` from
-`nN_coef_pkg`.
+**Proposed** (`src/proposed/nN/`): implements the fast algorithms from
+V. Natalevych, M. Polyakova, A. Cariow, *Fast Algorithms for the Small-Size
+Type IV Discrete Hartley Transform*, Electronics 2025, 14(14), 2841,
+[doi:10.3390/electronics14142841](https://doi.org/10.3390/electronics14142841).
+One VHDL entity per pipeline stage; the coefficients are passed to the stages
+as generics `C_COEF_S_k_N_G` from `nN_coef_pkg`.
 
 | N | Naive multipliers | Proposed multipliers | Naive latency | Proposed latency (stages) |
 |---|-------------------|----------------------|---------------|---------------------------|
