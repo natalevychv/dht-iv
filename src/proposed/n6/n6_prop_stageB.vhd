@@ -3,9 +3,9 @@
 --
 -- Stage B of the proposed 6-point DHT-IV architecture.
 --
--- Computes 4 coefficient multiplications (C_COEF_S_0_6, C_COEF_S_1_6,
--- C_COEF_S_3_6, C_COEF_S_4_6, passed as generics) and 2 scalings
--- by 1/4 implemented as arithmetic right shifts.
+-- Computes 4 coefficient multiplications (C_COEF_S_1_6 .. C_COEF_S_4_6,
+-- passed as generics) and 2 scalings by 1/4 implemented as arithmetic
+-- right shifts (the shifted-out bits are truncated).
 --
 -- Inputs:  p_in(0..5)   - butterfly outputs
 -- Outputs: p_out(0..5)  - products and scaled sums
@@ -19,10 +19,10 @@ use work.fixed_types_pkg.all;
 
 entity n6_prop_stageB is
   generic (
-    C_COEF_S_1_6_G : sfix32;
-    C_COEF_S_2_6_G : sfix32;
-    C_COEF_S_3_6_G : sfix32;
-    C_COEF_S_4_6_G : sfix32
+    C_COEF_S_1_6_G : sfix_coef;
+    C_COEF_S_2_6_G : sfix_coef;
+    C_COEF_S_3_6_G : sfix_coef;
+    C_COEF_S_4_6_G : sfix_coef
   );
   port (
     clk       : in std_logic;

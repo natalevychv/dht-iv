@@ -4,7 +4,7 @@
 -- Stage B of the proposed 5-point DHT-IV architecture.
 --
 -- Combines partial products from Stage A into intermediate sums;
--- p(2) and p(3) are passed through. No multiplications.
+-- p(0) and p(1) are passed through. No multiplications.
 --
 -- Inputs:  p_in(0..6)   - partial products
 -- Outputs: p_out(0..5)  - intermediate sums

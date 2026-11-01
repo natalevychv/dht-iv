@@ -15,6 +15,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
+use work.n7_coef_pkg.all;
 
 entity n7_prop_top is
     port (
@@ -36,17 +37,6 @@ architecture struct of n7_prop_top is
     signal dB_p_out : sfix32_vector(0 to 9);
 
     signal dC_p_out : sfix32_vector(0 to 7);
-
-    constant C_COEF_S_0_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_1_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_2_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_3_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_4_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_5_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_6_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_7_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_8_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
-    constant C_COEF_S_9_7 : sfix32 := to_sfixed( 1.0000, 15, -16);
 
 begin
 

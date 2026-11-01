@@ -22,8 +22,8 @@ use work.fixed_types_pkg.all;
 
 entity n3_prop_stageA is
   generic (
-    C_COEF_S_0_3_G : sfix32;
-    C_COEF_S_1_3_G : sfix32
+    C_COEF_S_0_3_G : sfix_coef;
+    C_COEF_S_1_3_G : sfix_coef
   );
   port (
     clk       : in std_logic;

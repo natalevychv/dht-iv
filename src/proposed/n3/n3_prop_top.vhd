@@ -13,6 +13,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
+use work.n3_coef_pkg.all;
 
 entity n3_prop_top is
     port (
@@ -32,9 +33,6 @@ architecture struct of n3_prop_top is
     signal dA_x_out : sfix32_vector(0 to 2);
     signal dA_p_0   : sfix32;
     signal dA_y_1   : sfix32;
-
-    constant C_COEF_S_0_3 : sfix32 := to_sfixed(-0.2113, 15, -16);
-    constant C_COEF_S_1_3 : sfix32 := to_sfixed( 0.5774, 15, -16);
 
 begin
 

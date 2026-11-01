@@ -20,15 +20,15 @@ use work.fixed_types_pkg.all;
 
 entity n8_prop_stageB is
   generic (
-    C_COEF_S_0_8_G : sfix32;
-    C_COEF_S_1_8_G : sfix32;
-    C_COEF_S_2_8_G : sfix32;
-    C_COEF_S_3_8_G : sfix32;
-    C_COEF_S_4_8_G : sfix32;
-    C_COEF_S_5_8_G : sfix32;
-    C_COEF_S_6_8_G : sfix32;
-    C_COEF_S_7_8_G : sfix32;
-    C_COEF_S_8_8_G : sfix32
+    C_COEF_S_0_8_G : sfix_coef;
+    C_COEF_S_1_8_G : sfix_coef;
+    C_COEF_S_2_8_G : sfix_coef;
+    C_COEF_S_3_8_G : sfix_coef;
+    C_COEF_S_4_8_G : sfix_coef;
+    C_COEF_S_5_8_G : sfix_coef;
+    C_COEF_S_6_8_G : sfix_coef;
+    C_COEF_S_7_8_G : sfix_coef;
+    C_COEF_S_8_8_G : sfix_coef
   );
   port (
     clk       : in std_logic;

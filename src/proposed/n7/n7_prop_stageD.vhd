@@ -4,7 +4,7 @@
 -- Stage D of the proposed 7-point DHT-IV architecture.
 --
 -- Output butterflies forming the final transform outputs;
--- y(3) is taken directly from p(0). No multiplications.
+-- y(3) = p(1) - p(0). No multiplications.
 --
 -- Inputs:  p_in(0..7)  - intermediate sums
 -- Outputs: y(0..6)     - transform outputs

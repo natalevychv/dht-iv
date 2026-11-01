@@ -18,13 +18,13 @@ use work.fixed_types_pkg.all;
 
 entity n5_prop_stageA is
   generic (
-    C_COEF_S_0_5_G : sfix32;
-    C_COEF_S_1_5_G : sfix32;
-    C_COEF_S_2_5_G : sfix32;
-    C_COEF_S_3_5_G : sfix32;
-    C_COEF_S_4_5_G : sfix32;
-    C_COEF_S_5_5_G : sfix32;
-    C_COEF_S_6_5_G : sfix32
+    C_COEF_S_0_5_G : sfix_coef;
+    C_COEF_S_1_5_G : sfix_coef;
+    C_COEF_S_2_5_G : sfix_coef;
+    C_COEF_S_3_5_G : sfix_coef;
+    C_COEF_S_4_5_G : sfix_coef;
+    C_COEF_S_5_5_G : sfix_coef;
+    C_COEF_S_6_5_G : sfix_coef
   );
   port (
     clk       : in std_logic;

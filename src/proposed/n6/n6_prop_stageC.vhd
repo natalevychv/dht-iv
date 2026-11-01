@@ -4,7 +4,8 @@
 -- Stage C of the proposed 6-point DHT-IV architecture.
 --
 -- Forms intermediate sums; scaling by 1/2 is implemented as
--- arithmetic right shifts. No multiplications.
+-- arithmetic right shifts (the shifted-out bit is truncated).
+-- No multiplications.
 --
 -- Inputs:  p_in(0..5)   - products and scaled sums
 -- Outputs: p_out(0..5)  - intermediate sums
