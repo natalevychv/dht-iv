@@ -21,3 +21,8 @@
 
 # -------------------------- Common packages ----------------------------------
 src/common/fixed_types_pkg.vhd
+
+
+# -------------------------- Shared testbench blocks --------------------------
+tb/dht_tb_stim.vhd
+tb/dht_tb_check.vhd

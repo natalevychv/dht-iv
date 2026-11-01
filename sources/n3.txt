@@ -1,6 +1,3 @@
-
-# TBU
-
 # -----------------------------------------------------------------------------
 # n3.txt
 #
@@ -21,12 +18,10 @@
 # -------------------------- Proposed  ----------------------------------------
 
 # --- N3 Proposed ---
-src/proposed/n3_old/n3_prop_stage_M_5_M_4.vhd
-src/proposed/n3_old/n3_prop_stage_M_3.vhd
-src/proposed/n3_old/n3_prop_stage_M_2.vhd
-src/proposed/n3_old/n3_prop_stage_M_1.vhd
-src/proposed/n3_old/n3_prop_stage_M_0.vhd
-src/proposed/n3_old/n3_prop_top.vhd
+src/proposed/n3/n3_coef_pkg.vhd
+src/proposed/n3/n3_prop_stageA.vhd
+src/proposed/n3/n3_prop_stageB.vhd
+src/proposed/n3/n3_prop_top.vhd
 
 
 # -------------------------- Naive  -------------------------------------------

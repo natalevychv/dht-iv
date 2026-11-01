@@ -8,7 +8,11 @@
 #       Optional "wave" opens GTKWave after simulation.
 #
 #   ./run.sh all
-#       Run all available targets without opening GTKWave.
+#       Run all available targets without opening GTKWave and print
+#       a summary of passed and failed targets.
+#
+#   A simulation fails when an assertion with severity error (or higher)
+#   is reported; the script then exits with a nonzero status.
 #
 #   ./run.sh clean
 #       Remove generated work and simulation files.
@@ -113,7 +117,8 @@ run_target()
 
 
     echo ">>> Simulation (ghdl -r)"
-    ghdl -r $GHDL_FLAGS "$TOP" --wave="$WAVEFILE"
+    local status=0
+    ghdl -r $GHDL_FLAGS "$TOP" --wave="$WAVEFILE" --assert-level=error || status=$?
 
 
     if [ "$open_wave" = "wave" ]; then
@@ -121,7 +126,13 @@ run_target()
         gtkwave "$WAVEFILE" &
     fi
 
-    echo ">>> Done. Waveform saved: $WAVEFILE"
+    if [ $status -ne 0 ]; then
+        echo ">>> FAILED. Waveform saved: $WAVEFILE"
+    else
+        echo ">>> Done. Waveform saved: $WAVEFILE"
+    fi
+
+    return $status
 }
 
 
@@ -154,9 +165,23 @@ fi
 
 if [ "$1" = "all" ]; then
 
+    FAILED=()
+
     for target in "${TARGETS[@]}"; do
-        run_target "$target"
+        "$0" "$target" || FAILED+=("$target")
     done
+
+    echo ""
+    echo "================================="
+    echo " Summary: $(( ${#TARGETS[@]} - ${#FAILED[@]} ))/${#TARGETS[@]} targets passed"
+    for target in "${FAILED[@]}"; do
+        echo "   FAILED: $target"
+    done
+    echo "================================="
+
+    if [ ${#FAILED[@]} -ne 0 ]; then
+        exit 1
+    fi
 
     exit 0
 fi

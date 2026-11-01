@@ -1,0 +1,37 @@
+# -----------------------------------------------------------------------------
+# n5.txt
+#
+# List of VHDL source files used for compilation for N = 5.
+#
+# Files are compiled in the order listed below.
+# Keep dependencies before modules that use them
+# (e.g. packages before entities, lower-level blocks before top-level designs).
+#
+# Format:
+#   - One source file per line
+#   - Empty lines are ignored
+#   - Lines starting with '#' are comments
+#
+# -----------------------------------------------------------------------------
+
+
+# -------------------------- Proposed  ----------------------------------------
+
+# --- N5 Proposed ---
+src/proposed/n5/n5_coef_pkg.vhd
+src/proposed/n5/n5_prop_stageA.vhd
+src/proposed/n5/n5_prop_stageB.vhd
+src/proposed/n5/n5_prop_stageC.vhd
+src/proposed/n5/n5_prop_top.vhd
+
+
+# -------------------------- Naive  -------------------------------------------
+
+# --- N5 Naive ---
+src/naive/n5/n5_naive.vhd
+
+
+# -------------------------- Testbenches  -------------------------------------
+
+# --- N5 Testbench ---
+tb/n5_tb.vhd

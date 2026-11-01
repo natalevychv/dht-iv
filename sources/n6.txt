@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------------
+# n6.txt
+#
+# List of VHDL source files used for compilation for N = 6.
+#
+# Files are compiled in the order listed below.
+# Keep dependencies before modules that use them
+# (e.g. packages before entities, lower-level blocks before top-level designs).
+#
+# Format:
+#   - One source file per line
+#   - Empty lines are ignored
+#   - Lines starting with '#' are comments
+#
+# -----------------------------------------------------------------------------
+
+
+# -------------------------- Proposed  ----------------------------------------
+
+# --- N6 Proposed ---
+src/proposed/n6/n6_coef_pkg.vhd
+src/proposed/n6/n6_prop_stageA.vhd
+src/proposed/n6/n6_prop_stageB.vhd
+src/proposed/n6/n6_prop_stageC.vhd
+src/proposed/n6/n6_prop_stageD.vhd
+src/proposed/n6/n6_prop_top.vhd
+
+
+# -------------------------- Naive  -------------------------------------------
+
+# --- N6 Naive ---
+src/naive/n6/n6_naive.vhd
+
+
+# -------------------------- Testbenches  -------------------------------------
+
+# --- N6 Testbench ---
+tb/n6_tb.vhd

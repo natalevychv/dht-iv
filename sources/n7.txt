@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------------
+# n7.txt
+#
+# List of VHDL source files used for compilation for N = 7.
+#
+# Files are compiled in the order listed below.
+# Keep dependencies before modules that use them
+# (e.g. packages before entities, lower-level blocks before top-level designs).
+#
+# Format:
+#   - One source file per line
+#   - Empty lines are ignored
+#   - Lines starting with '#' are comments
+#
+# -----------------------------------------------------------------------------
+
+
+# -------------------------- Proposed  ----------------------------------------
+
+# --- N7 Proposed ---
+src/proposed/n7/n7_coef_pkg.vhd
+src/proposed/n7/n7_prop_stageA.vhd
+src/proposed/n7/n7_prop_stageB.vhd
+src/proposed/n7/n7_prop_stageC.vhd
+src/proposed/n7/n7_prop_stageD.vhd
+src/proposed/n7/n7_prop_top.vhd
+
+
+# -------------------------- Naive  -------------------------------------------
+
+# --- N7 Naive ---
+src/naive/n7/n7_naive.vhd
+
+
+# -------------------------- Testbenches  -------------------------------------
+
+# --- N7 Testbench ---
+tb/n7_tb.vhd
