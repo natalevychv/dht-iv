@@ -16,7 +16,6 @@ package n5_coef_pkg is
 
     constant C_COEF_S_0_5 : sfix_coef := to_sfixed( 0.44721359549995793, 1, -30);
     constant C_COEF_S_1_5 : sfix_coef := to_sfixed( 0.44721359549995793, 1, -30);
-    constant C_COEF_S_2_5 : sfix_coef := to_sfixed( 0.25000000000000000, 1, -30);
     constant C_COEF_S_3_5 : sfix_coef := to_sfixed(-0.11180339887498951, 1, -30);
     constant C_COEF_S_4_5 : sfix_coef := to_sfixed( 0.16245984811645306, 1, -30);
     constant C_COEF_S_5_5 : sfix_coef := to_sfixed(-0.68819096023558657, 1, -30);

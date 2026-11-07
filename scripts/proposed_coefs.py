@@ -5,7 +5,7 @@ Coefficients of the proposed DHT-IV algorithms for N = 3..8.
 
 COEFS[N] maps "S_k" to the value of the VHDL generic C_COEF_S_k_N of the
 proposed modules, in generic order. Factors that are implemented as shifts
-in VHDL (e.g. a/2 = 0.25 for N = 6) are not listed.
+in VHDL (1/4 for N = 5 and N = 6) are not listed, so the keys may have gaps.
 
 The base constants a, b, c, ... are entries of the first row of the DHT-IV
 matrix, h[n] = c[0][n] = (1/sqrt(N)) * cas(pi * (2n+1) / (2N)). The formulas
@@ -42,7 +42,6 @@ def _n5():
     return {
         "S_0": c,
         "S_1": c,
-        "S_2": 0.25,
         "S_3": (a - b - d + e) / 4,
         "S_4": (a - b + d - e) / 2,
         "S_5": (-a - b + d + e) / 2,

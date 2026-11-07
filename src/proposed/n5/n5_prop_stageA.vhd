@@ -3,8 +3,10 @@
 --
 -- Stage A of the proposed 5-point DHT-IV architecture.
 --
--- Input butterflies followed by 7 coefficient multiplications
--- (C_COEF_S_0_5 .. C_COEF_S_6_5, passed as generics).
+-- Input butterflies followed by 6 coefficient multiplications
+-- (C_COEF_S_0_5, C_COEF_S_1_5, C_COEF_S_3_5 .. C_COEF_S_6_5, passed as
+-- generics) and a scaling by 1/4 implemented as an arithmetic right shift
+-- (the shifted-out bits are truncated).
 --
 -- Inputs:  x(0..4)  - input samples
 -- Outputs: p(0..6)  - partial products
@@ -20,7 +22,6 @@ entity n5_prop_stageA is
   generic (
     C_COEF_S_0_5_G : sfix_coef;
     C_COEF_S_1_5_G : sfix_coef;
-    C_COEF_S_2_5_G : sfix_coef;
     C_COEF_S_3_5_G : sfix_coef;
     C_COEF_S_4_5_G : sfix_coef;
     C_COEF_S_5_5_G : sfix_coef;
@@ -56,7 +57,7 @@ begin
 
   p_int(0) <= resize32(C_COEF_S_0_5_G * x(2));
   p_int(1) <= resize32(C_COEF_S_1_5_G * sum0_n1);
-  p_int(2) <= resize32(C_COEF_S_2_5_G * sum0_1);
+  p_int(2) <= resize32(shift_right(sum0_1, 2));
   p_int(3) <= resize32(C_COEF_S_3_5_G * sum0_n1);
   p_int(4) <= resize32(C_COEF_S_4_5_G * sum4);
   p_int(5) <= resize32(C_COEF_S_5_5_G * sum5);
