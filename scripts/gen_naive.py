@@ -239,17 +239,15 @@ def generate(N):
           "    process (clk)",
           "    begin",
           "        if rising_edge(clk) then",
-          "            if rst = '1' then"]
+          "            -- Data registers are not reset, only the valid pipeline."]
     if n_reg:
-        L.append("                p         <= (others => (others => '0'));")
-    L += ["                valid_1   <= '0';",
-          "                y         <= (others => (others => '0'));",
+        L.append("            p         <= p_int;")
+    L += ["            y         <= y_int;",
+          "            if rst = '1' then",
+          "                valid_1   <= '0';",
           "                valid_out <= '0';",
-          "            else"]
-    if n_reg:
-        L.append("                p         <= p_int;")
-    L += ["                valid_1   <= valid_in;",
-          "                y         <= y_int;",
+          "            else",
+          "                valid_1   <= valid_in;",
           "                valid_out <= valid_1;",
           "            end if;",
           "        end if;",

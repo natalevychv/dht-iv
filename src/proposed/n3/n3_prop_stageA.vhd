@@ -3,15 +3,15 @@
 --
 -- Stage A of the proposed 3-point DHT-IV architecture.
 --
--- Forms two input sums and computes 2 coefficient multiplications
--- (C_COEF_S_0_3, C_COEF_S_1_3, passed as generics). Output y(1) is
--- final after this stage. The input vector is registered and passed
--- on to Stage B.
+-- Forms the two input sums that are the operands of the 2 multiplications
+-- performed in Stage B. This stage has no multipliers: the operands and
+-- the input vector are registered and passed on.
 --
 -- Inputs:  x(0..2)      - input samples
 -- Outputs: x_out(0..2)  - registered input samples
---          p_0          - partial product
---          y_1          - final output y(1)
+--          m(0..1)      - multiplier operands:
+--                         m(0) = 2*x(1) + x(0) + x(2),
+--                         m(1) = x(0) - x(1) + x(2)
 --
 -- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
@@ -21,10 +21,6 @@ use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
 
 entity n3_prop_stageA is
-  generic (
-    C_COEF_S_0_3_G : sfix_coef;
-    C_COEF_S_1_3_G : sfix_coef
-  );
   port (
     clk       : in std_logic;
     rst       : in std_logic;
@@ -32,35 +28,29 @@ entity n3_prop_stageA is
     x         : in sfix32_vector(0 to 2);
     valid_out : out std_logic;
     x_out     : out sfix32_vector(0 to 2);
-    p_0       : out sfix32;
-    y_1       : out sfix32
+    m         : out sfix32_vector(0 to 1)
   );
 end entity n3_prop_stageA;
 
 architecture rtl of n3_prop_stageA is
-  signal p_0_int : sfix32;
-  signal y_1_int : sfix32;
-  signal sum0    : sfix32;
-  signal sum1    : sfix32;
+  signal m_int : sfix32_vector(0 to 1);
+  signal sum0  : sfix32;
+  signal sum1  : sfix32;
 begin
-  sum0 <= resize32(shift_left(x(1), 1) + x(0) + x(2));
-  sum1 <= resize32(x(0) - x(1) + x(2));
+  sum0 <= wrap32(shift_left(x(1), 1) + x(0) + x(2));
+  sum1 <= wrap32(x(0) - x(1) + x(2));
 
-  p_0_int <= resize32(sum0 * C_COEF_S_0_3_G);
-  y_1_int <= resize32(sum1 * C_COEF_S_1_3_G);
+  m_int(0) <= sum0;
+  m_int(1) <= sum1;
 
   process (clk)
   begin
     if rising_edge(clk) then
+      x_out     <= x;
+      m         <= m_int;
       if rst = '1' then
-        x_out     <= (others => (others => '0'));
-        p_0       <= SFIX32_ZERO;
-        y_1       <= SFIX32_ZERO;
         valid_out <= '0';
       else
-        x_out     <= x;
-        p_0       <= p_0_int;
-        y_1       <= y_1_int;
         valid_out <= valid_in;
       end if;
     end if;

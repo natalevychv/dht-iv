@@ -4,9 +4,9 @@
 -- Top-level module for the proposed algorithm for 4-point DHT-IV
 --
 -- Pipeline:
---      Stage A: partial products
---      Stage B: intermediate sums
---      Stage C: final outputs
+--      Stage A: input sums (multiplier operands)
+--      Stage B: coefficient multiplications (6, multiplications only)
+--      Stage C: intermediate sums and final outputs
 --
 -- Total latency: 3 clocks
 -------------------------------------------------------------------------------
@@ -31,13 +31,23 @@ architecture struct of n4_prop_top is
 
     signal valid_A, valid_B, valid_C : std_logic;
 
-    signal dA_p_out : sfix32_vector(0 to 5);
+    signal dA_m_out : sfix32_vector(0 to 5);
 
-    signal dB_p_out : sfix32_vector(0 to 3);
+    signal dB_p_out : sfix32_vector(0 to 5);
 
 begin
 
     stageA : entity work.n4_prop_stageA
+        port map (
+            clk => clk,
+            rst => rst,
+            valid_in => valid_in,
+            x => x,
+            valid_out => valid_A,
+            m => dA_m_out
+        );
+
+    stageB : entity work.n4_prop_stageB
         generic map (
             C_COEF_S_0_4_G => C_COEF_S_0_4,
             C_COEF_S_1_4_G => C_COEF_S_1_4,
@@ -49,18 +59,8 @@ begin
         port map (
             clk => clk,
             rst => rst,
-            valid_in => valid_in,
-            x => x,
-            valid_out => valid_A,
-            p => dA_p_out
-        );
-
-    stageB : entity work.n4_prop_stageB
-        port map (
-            clk => clk,
-            rst => rst,
             valid_in => valid_A,
-            p_in => dA_p_out,
+            m_in => dA_m_out,
             valid_out => valid_B,
             p_out => dB_p_out
         );

@@ -3,11 +3,14 @@
 --
 -- Stage A of the proposed 4-point DHT-IV architecture.
 --
--- Forms input sums and computes 6 partial products with the
--- coefficients C_COEF_S_0_4 .. C_COEF_S_5_4 (passed as generics).
+-- Forms the input sums that are the operands of the 6 multiplications
+-- performed in Stage B. This stage has no multipliers: only the operands
+-- are registered.
 --
 -- Inputs:  x(0..3)  - input samples
--- Outputs: p(0..5)  - partial products
+-- Outputs: m(0..5)  - multiplier operands:
+--                     m(0) = x(0), m(1) = x(2), m(2) = x(0) + x(2),
+--                     m(3) = x(1), m(4) = -x(3), m(5) = x(1) - x(3)
 --
 -- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
@@ -17,47 +20,38 @@ use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
 
 entity n4_prop_stageA is
-  generic (
-    C_COEF_S_0_4_G : sfix_coef;
-    C_COEF_S_1_4_G : sfix_coef;
-    C_COEF_S_2_4_G : sfix_coef;
-    C_COEF_S_3_4_G : sfix_coef;
-    C_COEF_S_4_4_G : sfix_coef;
-    C_COEF_S_5_4_G : sfix_coef
-  );
   port (
     clk       : in std_logic;
     rst       : in std_logic;
     valid_in  : in std_logic;
     x         : in sfix32_vector(0 to 3);
     valid_out : out std_logic;
-    p         : out sfix32_vector(0 to 5)
+    m         : out sfix32_vector(0 to 5)
   );
 end entity n4_prop_stageA;
 
 architecture rtl of n4_prop_stageA is
-  signal p_int : sfix32_vector(0 to 5);
+  signal m_int : sfix32_vector(0 to 5);
   signal sum0  : sfix32;
   signal sum1  : sfix32;
 begin
-  sum0 <= resize32(x(0) + x(2));
-  sum1 <= resize32(x(1) - x(3));
+  sum0 <= wrap32(x(0) + x(2));
+  sum1 <= wrap32(x(1) - x(3));
 
-  p_int(0) <= resize32(C_COEF_S_0_4_G * x(0));
-  p_int(1) <= resize32(C_COEF_S_1_4_G * x(2));
-  p_int(2) <= resize32(C_COEF_S_2_4_G * sum0);
-  p_int(3) <= resize32(C_COEF_S_3_4_G * x(1));
-  p_int(4) <= resize32(C_COEF_S_4_4_G * (-x(3)));
-  p_int(5) <= resize32(C_COEF_S_5_4_G * sum1);
+  m_int(0) <= x(0);
+  m_int(1) <= x(2);
+  m_int(2) <= sum0;
+  m_int(3) <= x(1);
+  m_int(4) <= wrap32(-x(3));
+  m_int(5) <= sum1;
 
   process (clk)
   begin
     if rising_edge(clk) then
+      m         <= m_int;
       if rst = '1' then
-        p         <= (others => (others => '0'));
         valid_out <= '0';
       else
-        p         <= p_int;
         valid_out <= valid_in;
       end if;
     end if;

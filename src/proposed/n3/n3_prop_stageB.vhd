@@ -3,14 +3,17 @@
 --
 -- Stage B of the proposed 3-point DHT-IV architecture.
 --
--- Combines the registered inputs with the partial product p_0 to form
--- the final outputs y(0) and y(2); y(1) is passed through from Stage A.
--- No multiplications.
+-- Computes the 2 coefficient multiplications
+-- p_0 = m(0) * C_COEF_S_0_3 and y_1 = m(1) * C_COEF_S_1_3 (coefficients
+-- passed as generics). Output y(1) is final after this stage.
+-- Multiplications only: the operands are formed in Stage A. The input
+-- vector is registered and passed on to Stage C.
 --
--- Inputs:  x(0..2)  - registered input samples
---          p_0      - partial product
---          y_1      - final output y(1)
--- Outputs: y(0..2)  - transform outputs
+-- Inputs:  x_in(0..2)   - registered input samples
+--          m_in(0..1)   - multiplier operands
+-- Outputs: x_out(0..2)  - registered input samples
+--          p_0          - partial product
+--          y_1          - final output y(1)
 --
 -- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
@@ -20,37 +23,40 @@ use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
 
 entity n3_prop_stageB is
+  generic (
+    C_COEF_S_0_3_G : sfix_coef;
+    C_COEF_S_1_3_G : sfix_coef
+  );
   port (
     clk       : in std_logic;
     rst       : in std_logic;
     valid_in  : in std_logic;
-    x         : in sfix32_vector(0 to 2);
-    p_0       : in sfix32;
-    y_1       : in sfix32;
+    x_in      : in sfix32_vector(0 to 2);
+    m_in      : in sfix32_vector(0 to 1);
     valid_out : out std_logic;
-    y         : out sfix32_vector(0 to 2)
+    x_out     : out sfix32_vector(0 to 2);
+    p_0       : out sfix32;
+    y_1       : out sfix32
   );
 end entity n3_prop_stageB;
 
 architecture rtl of n3_prop_stageB is
-  signal y_int : sfix32_vector(0 to 2);
-  signal p_1   : sfix32;
+  signal p_0_int : sfix32;
+  signal y_1_int : sfix32;
 begin
 
-  p_1 <= resize32(x(1) + p_0);
-
-  y_int(0) <= resize32(x(0) + p_1);
-  y_int(1) <= y_1;
-  y_int(2) <= resize32(x(2) + p_1);
+  p_0_int <= resize32(m_in(0) * C_COEF_S_0_3_G);
+  y_1_int <= resize32(m_in(1) * C_COEF_S_1_3_G);
 
   process (clk)
   begin
     if rising_edge(clk) then
+      x_out     <= x_in;
+      p_0       <= p_0_int;
+      y_1       <= y_1_int;
       if rst = '1' then
-        y         <= (others => (others => '0'));
         valid_out <= '0';
       else
-        y         <= y_int;
         valid_out <= valid_in;
       end if;
     end if;

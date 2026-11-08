@@ -4,8 +4,8 @@
 -- Top-level module for the proposed algorithm for 7-point DHT-IV
 --
 -- Pipeline:
---      Stage A: input butterflies
---      Stage B: coefficient multiplications
+--      Stage A: input butterflies and pre-addition sums (multiplier operands)
+--      Stage B: coefficient multiplications (10, multiplications only)
 --      Stage C: intermediate sums
 --      Stage D: final outputs
 --
@@ -32,7 +32,7 @@ architecture struct of n7_prop_top is
 
     signal valid_A, valid_B, valid_C, valid_D : std_logic;
 
-    signal dA_p_out : sfix32_vector(0 to 7);
+    signal dA_m_out : sfix32_vector(0 to 9);
 
     signal dB_p_out : sfix32_vector(0 to 9);
 
@@ -47,7 +47,7 @@ begin
             valid_in => valid_in,
             x => x,
             valid_out => valid_A,
-            p => dA_p_out
+            m => dA_m_out
         );
 
     stageB : entity work.n7_prop_stageB
@@ -67,7 +67,7 @@ begin
             clk => clk,
             rst => rst,
             valid_in => valid_A,
-            p_in => dA_p_out,
+            m_in => dA_m_out,
             valid_out => valid_B,
             p_out => dB_p_out
         );

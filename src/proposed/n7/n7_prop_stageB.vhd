@@ -3,10 +3,11 @@
 --
 -- Stage B of the proposed 7-point DHT-IV architecture.
 --
--- Forms pre-addition sums and computes 10 coefficient multiplications
--- (C_COEF_S_0_7 .. C_COEF_S_9_7, passed as generics).
+-- Computes the 10 coefficient multiplications
+-- p_out(k) = C_COEF_S_k_7 * m_in(k), k = 0..9 (coefficients passed as
+-- generics). Multiplications only: the operands are formed in Stage A.
 --
--- Inputs:  p_in(0..7)   - butterfly outputs
+-- Inputs:  m_in(0..9)   - multiplier operands
 -- Outputs: p_out(0..9)  - partial products
 --
 -- Latency: 1 clock cycle (output register).
@@ -33,51 +34,34 @@ entity n7_prop_stageB is
     clk       : in std_logic;
     rst       : in std_logic;
     valid_in  : in std_logic;
-    p_in      : in sfix32_vector(0 to 7);
+    m_in      : in sfix32_vector(0 to 9);
     valid_out : out std_logic;
     p_out     : out sfix32_vector(0 to 9)
   );
 end entity n7_prop_stageB;
 
 architecture rtl of n7_prop_stageB is
-  signal p_int  : sfix32_vector(0 to 9);
-  signal sum2   : sfix32;
-  signal sum3   : sfix32;
-  signal sum4   : sfix32;
-  signal sum3_4 : sfix32;
-  signal sum6   : sfix32;
-  signal sum7   : sfix32;
-  signal sum8   : sfix32;
-  signal sum7_8 : sfix32;
-
+  signal p_int : sfix32_vector(0 to 9);
 begin
-  sum2   <= resize32(p_in(2) + p_in(3) + p_in(4));
-  sum3   <= resize32(p_in(2) - p_in(4));
-  sum4   <= resize32(p_in(2) - p_in(3));
-  sum3_4 <= resize32(sum3 + sum4);
-  sum6   <= resize32(p_in(5) - p_in(6) + p_in(7));
-  sum7   <= resize32(p_in(5) - p_in(7));
-  sum8   <= resize32(p_in(5) + p_in(6));
-  sum7_8 <= resize32(sum7 + sum8);
 
-  p_int(0) <= resize32(C_COEF_S_0_7_G * p_in(0));
-  p_int(1) <= resize32(C_COEF_S_1_7_G * p_in(1));
-  p_int(2) <= resize32(C_COEF_S_2_7_G * sum2);
-  p_int(3) <= resize32(C_COEF_S_3_7_G * sum3);
-  p_int(4) <= resize32(C_COEF_S_4_7_G * sum4);
-  p_int(5) <= resize32(C_COEF_S_5_7_G * sum3_4);
-  p_int(6) <= resize32(C_COEF_S_6_7_G * sum6);
-  p_int(7) <= resize32(C_COEF_S_7_7_G * sum7);
-  p_int(8) <= resize32(C_COEF_S_8_7_G * sum8);
-  p_int(9) <= resize32(C_COEF_S_9_7_G * sum7_8);
+  p_int(0) <= resize32(C_COEF_S_0_7_G * m_in(0));
+  p_int(1) <= resize32(C_COEF_S_1_7_G * m_in(1));
+  p_int(2) <= resize32(C_COEF_S_2_7_G * m_in(2));
+  p_int(3) <= resize32(C_COEF_S_3_7_G * m_in(3));
+  p_int(4) <= resize32(C_COEF_S_4_7_G * m_in(4));
+  p_int(5) <= resize32(C_COEF_S_5_7_G * m_in(5));
+  p_int(6) <= resize32(C_COEF_S_6_7_G * m_in(6));
+  p_int(7) <= resize32(C_COEF_S_7_7_G * m_in(7));
+  p_int(8) <= resize32(C_COEF_S_8_7_G * m_in(8));
+  p_int(9) <= resize32(C_COEF_S_9_7_G * m_in(9));
+
   process (clk)
   begin
     if rising_edge(clk) then
+      p_out     <= p_int;
       if rst = '1' then
-        p_out     <= (others => (others => '0'));
         valid_out <= '0';
       else
-        p_out     <= p_int;
         valid_out <= valid_in;
       end if;
     end if;

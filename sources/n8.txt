@@ -22,7 +22,6 @@ src/proposed/n8/n8_coef_pkg.vhd
 src/proposed/n8/n8_prop_stageA.vhd
 src/proposed/n8/n8_prop_stageB.vhd
 src/proposed/n8/n8_prop_stageC.vhd
-src/proposed/n8/n8_prop_stageD.vhd
 src/proposed/n8/n8_prop_top.vhd
 
 

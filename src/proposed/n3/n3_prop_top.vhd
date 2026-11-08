@@ -4,10 +4,11 @@
 -- Top-level module for the proposed algorithm for 3-point DHT-IV
 --
 -- Pipeline:
---      Stage A: input sums and coefficient multiplications
---      Stage B: final outputs
+--      Stage A: input sums (multiplier operands)
+--      Stage B: coefficient multiplications (2, multiplications only)
+--      Stage C: final outputs
 --
--- Total latency: 2 clocks
+-- Total latency: 3 clocks
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -28,26 +29,34 @@ end entity n3_prop_top;
 
 architecture struct of n3_prop_top is
 
-    signal vA, vB : std_logic;
+    signal vA, vB, vC : std_logic;
 
     signal dA_x_out : sfix32_vector(0 to 2);
-    signal dA_p_0   : sfix32;
-    signal dA_y_1   : sfix32;
+    signal dA_m     : sfix32_vector(0 to 1);
+
+    signal dB_x_out : sfix32_vector(0 to 2);
+    signal dB_p_0   : sfix32;
+    signal dB_y_1   : sfix32;
 
 begin
 
     stageA : entity work.n3_prop_stageA
-        generic map (C_COEF_S_0_3_G => C_COEF_S_0_3,
-                     C_COEF_S_1_3_G => C_COEF_S_1_3)
         port map (clk => clk, rst => rst, valid_in => valid_in,
                    x => x, valid_out => vA, x_out => dA_x_out,
-                   p_0 => dA_p_0, y_1 => dA_y_1);
+                   m => dA_m);
 
     stageB : entity work.n3_prop_stageB
+        generic map (C_COEF_S_0_3_G => C_COEF_S_0_3,
+                     C_COEF_S_1_3_G => C_COEF_S_1_3)
         port map (clk => clk, rst => rst, valid_in => vA,
-                   x => dA_x_out, p_0 => dA_p_0, y_1 => dA_y_1,
-                   valid_out => vB, y => y);
+                   x_in => dA_x_out, m_in => dA_m, valid_out => vB,
+                   x_out => dB_x_out, p_0 => dB_p_0, y_1 => dB_y_1);
 
-    valid_out <= vB;
+    stageC : entity work.n3_prop_stageC
+        port map (clk => clk, rst => rst, valid_in => vB,
+                   x => dB_x_out, p_0 => dB_p_0, y_1 => dB_y_1,
+                   valid_out => vC, y => y);
+
+    valid_out <= vC;
 
 end architecture struct;

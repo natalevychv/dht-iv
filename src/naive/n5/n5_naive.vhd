@@ -104,15 +104,14 @@ begin
     process (clk)
     begin
         if rising_edge(clk) then
+            -- Data registers are not reset, only the valid pipeline.
+            p         <= p_int;
+            y         <= y_int;
             if rst = '1' then
-                p         <= (others => (others => '0'));
                 valid_1   <= '0';
-                y         <= (others => (others => '0'));
                 valid_out <= '0';
             else
-                p         <= p_int;
                 valid_1   <= valid_in;
-                y         <= y_int;
                 valid_out <= valid_1;
             end if;
         end if;

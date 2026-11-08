@@ -35,28 +35,27 @@ architecture rtl of n7_prop_stageC is
   signal sum3  : sfix32;
 
 begin
-  sum0 <= resize32(p_in(3) + p_in(5));
-  sum1 <= resize32(p_in(4) + p_in(5));
-  sum2 <= resize32(p_in(7) + p_in(9));
-  sum3 <= resize32(p_in(8) + p_in(9));
+  sum0 <= wrap32(p_in(3) + p_in(5));
+  sum1 <= wrap32(p_in(4) + p_in(5));
+  sum2 <= wrap32(p_in(7) + p_in(9));
+  sum3 <= wrap32(p_in(8) + p_in(9));
 
   p_int(0) <= p_in(0);
   p_int(1) <= p_in(1);
-  p_int(2) <= resize32(p_in(2) + sum0 + sum1);
-  p_int(3) <= resize32(p_in(2) - sum0);
-  p_int(4) <= resize32(p_in(2) - sum1);
-  p_int(5) <= resize32(p_in(6) + sum2 + sum3);
-  p_int(6) <= resize32(p_in(6) - sum2);
-  p_int(7) <= resize32(p_in(6) - sum3);
+  p_int(2) <= wrap32(p_in(2) + sum0 + sum1);
+  p_int(3) <= wrap32(p_in(2) - sum0);
+  p_int(4) <= wrap32(p_in(2) - sum1);
+  p_int(5) <= wrap32(p_in(6) + sum2 + sum3);
+  p_int(6) <= wrap32(p_in(6) - sum2);
+  p_int(7) <= wrap32(p_in(6) - sum3);
 
   process (clk)
   begin
     if rising_edge(clk) then
+      p_out     <= p_int;
       if rst = '1' then
-        p_out     <= (others => (others => '0'));
         valid_out <= '0';
       else
-        p_out     <= p_int;
         valid_out <= valid_in;
       end if;
     end if;

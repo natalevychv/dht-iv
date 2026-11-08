@@ -21,6 +21,7 @@
 src/proposed/n3/n3_coef_pkg.vhd
 src/proposed/n3/n3_prop_stageA.vhd
 src/proposed/n3/n3_prop_stageB.vhd
+src/proposed/n3/n3_prop_stageC.vhd
 src/proposed/n3/n3_prop_top.vhd
 
 

@@ -4,12 +4,11 @@
 -- Top-level module for the proposed algorithm for 8-point DHT-IV
 --
 -- Pipeline:
---      Stage A: input butterflies
---      Stage B: coefficient multiplications (first half)
---      Stage C: coefficient multiplications (second half)
---      Stage D: final outputs
+--      Stage A: input butterflies and pre-addition sums (multiplier operands)
+--      Stage B: coefficient multiplications (18, multiplications only)
+--      Stage C: final outputs
 --
--- Total latency: 4 clocks
+-- Total latency: 3 clocks
 -------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -30,14 +29,11 @@ end entity n8_prop_top;
 
 architecture struct of n8_prop_top is
 
-    signal valid_A, valid_B, valid_C, valid_D : std_logic;
+    signal valid_A, valid_B, valid_C : std_logic;
 
-    signal dA_p_out : sfix32_vector(0 to 7);
+    signal dA_m_out : sfix32_vector(0 to 17);
 
-    signal dB_p_out : sfix32_vector(0 to 3);
-    signal dB_v_out : sfix32_vector(0 to 8);
-
-    signal dC_v_out : sfix32_vector(0 to 17);
+    signal dB_v_out : sfix32_vector(0 to 17);
 
 begin
 
@@ -48,7 +44,7 @@ begin
             valid_in => valid_in,
             x => x,
             valid_out => valid_A,
-            p => dA_p_out
+            m => dA_m_out
         );
 
     stageB : entity work.n8_prop_stageB
@@ -61,20 +57,7 @@ begin
             C_COEF_S_5_8_G => C_COEF_S_5_8,
             C_COEF_S_6_8_G => C_COEF_S_6_8,
             C_COEF_S_7_8_G => C_COEF_S_7_8,
-            C_COEF_S_8_8_G => C_COEF_S_8_8
-        )
-        port map (
-            clk => clk,
-            rst => rst,
-            valid_in => valid_A,
-            p_in => dA_p_out,
-            valid_out => valid_B,
-            p_out => dB_p_out,
-            v_out => dB_v_out
-        );
-
-    stageC : entity work.n8_prop_stageC
-        generic map (
+            C_COEF_S_8_8_G => C_COEF_S_8_8,
             C_COEF_S_9_8_G => C_COEF_S_9_8,
             C_COEF_S_10_8_G => C_COEF_S_10_8,
             C_COEF_S_11_8_G => C_COEF_S_11_8,
@@ -88,23 +71,22 @@ begin
         port map (
             clk => clk,
             rst => rst,
-            valid_in => valid_B,
-            p_in => dB_p_out,
-            v_in => dB_v_out,
-            valid_out => valid_C,
-            v_out => dC_v_out
+            valid_in => valid_A,
+            m_in => dA_m_out,
+            valid_out => valid_B,
+            v_out => dB_v_out
         );
 
-    stageD : entity work.n8_prop_stageD
+    stageC : entity work.n8_prop_stageC
         port map (
             clk => clk,
             rst => rst,
-            valid_in => valid_C,
-            v_in => dC_v_out,
-            valid_out => valid_D,
+            valid_in => valid_B,
+            v_in => dB_v_out,
+            valid_out => valid_C,
             y => y
         );
 
-    valid_out <= valid_D;
+    valid_out <= valid_C;
 
 end architecture struct;

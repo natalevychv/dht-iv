@@ -1,0 +1,57 @@
+-------------------------------------------------------------------------------
+-- n3_prop_stageC.vhd
+--
+-- Stage C of the proposed 3-point DHT-IV architecture.
+--
+-- Combines the registered inputs with the partial product p_0 to form
+-- the final outputs y(0) and y(2); y(1) is passed through from Stage B.
+-- This stage has no multipliers.
+--
+-- Inputs:  x(0..2)  - registered input samples
+--          p_0      - partial product
+--          y_1      - final output y(1)
+-- Outputs: y(0..2)  - transform outputs
+--
+-- Latency: 1 clock cycle (output register).
+-------------------------------------------------------------------------------
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.fixed_pkg.all;
+use work.fixed_types_pkg.all;
+
+entity n3_prop_stageC is
+  port (
+    clk       : in std_logic;
+    rst       : in std_logic;
+    valid_in  : in std_logic;
+    x         : in sfix32_vector(0 to 2);
+    p_0       : in sfix32;
+    y_1       : in sfix32;
+    valid_out : out std_logic;
+    y         : out sfix32_vector(0 to 2)
+  );
+end entity n3_prop_stageC;
+
+architecture rtl of n3_prop_stageC is
+  signal y_int : sfix32_vector(0 to 2);
+  signal p_1   : sfix32;
+begin
+
+  p_1 <= wrap32(x(1) + p_0);
+
+  y_int(0) <= wrap32(x(0) + p_1);
+  y_int(1) <= y_1;
+  y_int(2) <= wrap32(x(2) + p_1);
+
+  process (clk)
+  begin
+    if rising_edge(clk) then
+      y         <= y_int;
+      if rst = '1' then
+        valid_out <= '0';
+      else
+        valid_out <= valid_in;
+      end if;
+    end if;
+  end process;
+end architecture rtl;

@@ -3,11 +3,20 @@
 --
 -- Stage B of the proposed 5-point DHT-IV architecture.
 --
--- Combines partial products from Stage A into intermediate sums;
--- p(0) and p(1) are passed through. No multiplications.
+-- Computes the 6 coefficient multiplications (C_COEF_S_0_5, C_COEF_S_1_5,
+-- C_COEF_S_3_5 .. C_COEF_S_6_5, passed as generics) and a scaling by 1/4
+-- implemented as an arithmetic right shift (the shifted-out bits are
+-- truncated). Multiplications only: the operands are formed in Stage A.
 --
--- Inputs:  p_in(0..6)   - partial products
--- Outputs: p_out(0..5)  - intermediate sums
+-- Inputs:  m_in(0..5)   - multiplier operands
+-- Outputs: p_out(0..6)  - partial products:
+--                         p(0) = C_COEF_S_0_5 * m(0),
+--                         p(1) = C_COEF_S_1_5 * m(1),
+--                         p(2) = m(2) / 4,
+--                         p(3) = C_COEF_S_3_5 * m(1),
+--                         p(4) = C_COEF_S_4_5 * m(3),
+--                         p(5) = C_COEF_S_5_5 * m(4),
+--                         p(6) = C_COEF_S_6_5 * m(5)
 --
 -- Latency: 1 clock cycle (output register).
 -------------------------------------------------------------------------------
@@ -17,45 +26,43 @@ use ieee.fixed_pkg.all;
 use work.fixed_types_pkg.all;
 
 entity n5_prop_stageB is
+  generic (
+    C_COEF_S_0_5_G : sfix_coef;
+    C_COEF_S_1_5_G : sfix_coef;
+    C_COEF_S_3_5_G : sfix_coef;
+    C_COEF_S_4_5_G : sfix_coef;
+    C_COEF_S_5_5_G : sfix_coef;
+    C_COEF_S_6_5_G : sfix_coef
+  );
   port (
     clk       : in std_logic;
     rst       : in std_logic;
     valid_in  : in std_logic;
-    p_in      : in sfix32_vector(0 to 6);
+    m_in      : in sfix32_vector(0 to 5);
     valid_out : out std_logic;
-    p_out     : out sfix32_vector(0 to 5)
+    p_out     : out sfix32_vector(0 to 6)
   );
 end entity n5_prop_stageB;
 
 architecture rtl of n5_prop_stageB is
-  signal p_int : sfix32_vector(0 to 5);
-  signal sum2_3    : sfix32;
-  signal sum2_n3   : sfix32;
-  signal sum4_6    : sfix32;
-  signal sum5_6    : sfix32;
+  signal p_int : sfix32_vector(0 to 6);
 begin
 
-  sum2_3  <= resize32(p_in(2) + p_in(3));
-  sum2_n3 <= resize32(p_in(2) - p_in(3));
-  sum4_6  <= resize32(p_in(4) + p_in(6));
-  sum5_6  <= resize32(p_in(5) + p_in(6));
-
-  p_int(0) <= p_in(0);
-  p_int(1) <= p_in(1);
-  p_int(2) <= resize32(sum2_3 + sum4_6);
-  p_int(3) <= resize32(sum2_n3 + sum5_6);
-  p_int(4) <= resize32(sum2_3 - sum4_6);
-  p_int(5) <= resize32(sum2_n3 - sum5_6);
-
+  p_int(0) <= resize32(C_COEF_S_0_5_G * m_in(0));
+  p_int(1) <= resize32(C_COEF_S_1_5_G * m_in(1));
+  p_int(2) <= wrap32(shift_right(m_in(2), 2));
+  p_int(3) <= resize32(C_COEF_S_3_5_G * m_in(1));
+  p_int(4) <= resize32(C_COEF_S_4_5_G * m_in(3));
+  p_int(5) <= resize32(C_COEF_S_5_5_G * m_in(4));
+  p_int(6) <= resize32(C_COEF_S_6_5_G * m_in(5));
 
   process (clk)
   begin
     if rising_edge(clk) then
+      p_out     <= p_int;
       if rst = '1' then
-        p_out     <= (others => (others => '0'));
         valid_out <= '0';
       else
-        p_out     <= p_int;
         valid_out <= valid_in;
       end if;
     end if;
